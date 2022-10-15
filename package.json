@@ -6,6 +6,7 @@
     "start": "dotenv -e .env -- nodemon ./bin/www"
   },
   "dependencies": {
+    "@prisma/client": "^3.15.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
@@ -15,5 +16,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "prisma": "^3.15.2"
   }
 }
