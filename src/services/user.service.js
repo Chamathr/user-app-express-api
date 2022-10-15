@@ -10,4 +10,14 @@ const getAllUsers = async () => {
     }
 }
 
-module.exports = { getAllUsers }
+const createUser = async (req) => {
+    try{
+        const response = await UserRepository.createUser(req)
+        return response
+    }
+    catch(error){
+        return error
+    }
+}
+
+module.exports = { getAllUsers, createUser }
