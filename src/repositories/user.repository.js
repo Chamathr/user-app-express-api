@@ -24,11 +24,11 @@ const getAllUsers = async () => {
     }
 }
 
-const createUser = async (req) => {
-    try{
+const createUser = async (userData) => {
+    try {
         const response = await prisma.user.create(
             {
-                data: req?.body
+                data: userData
             }
         )
         const responseBody = {
@@ -38,7 +38,7 @@ const createUser = async (req) => {
         }
         return responseBody
     }
-    catch(error){
+    catch (error) {
         const errorBody = {
             status: 500,
             message: 'failed',
@@ -46,9 +46,38 @@ const createUser = async (req) => {
         }
         return errorBody
     }
-    finally{
+    finally {
         await prisma.$disconnect()
     }
 }
 
-module.exports = { getAllUsers, createUser }
+const deleteUser = async (userEmail) => {
+    try {
+        const response = await prisma.user.delete(
+            {
+                where: {
+                    email: userEmail
+                }
+            }
+        )
+        const responseBody = {
+            status: 200,
+            message: 'success',
+            body: response
+        }
+        return responseBody
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+module.exports = { getAllUsers, createUser, deleteUser }

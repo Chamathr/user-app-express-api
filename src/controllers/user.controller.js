@@ -17,7 +17,7 @@ const getAllUsers = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
     try {
-        const response = await UserServices.createUser(req)
+        const response = await UserServices.createUser(req?.body)
         res.status(response?.status).send(response)
     }
     catch (error) {
@@ -30,4 +30,19 @@ const createUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, createUser }
+const deleteUser = async (req, res, next) => {
+    try {
+        const response = await UserServices.deleteUser(req?.params?.email)
+        res.status(response?.status).send(response)
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        res.status(500).send(errorBody)
+    }
+}
+
+module.exports = { getAllUsers, createUser, deleteUser }

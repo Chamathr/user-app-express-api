@@ -7,6 +7,12 @@ const userValidation = {
             email: Joi.string().email().required(),
             age: Joi.number().integer().required(),
         })
+    },
+
+    deleteUser: {
+        [Segments.PARAMS]: {
+            email: Joi.string().required()
+        }
     }
 }
 
