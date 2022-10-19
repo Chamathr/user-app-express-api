@@ -11,9 +11,19 @@ const userValidation = {
 
     deleteUser: {
         [Segments.PARAMS]: {
-            email: Joi.string().required()
+            email: Joi.string().email().required()
         }
-    }
+    },
+
+    updateUser: {
+        [Segments.PARAMS]: {
+            email: Joi.string().email().required()
+        },
+        [Segments.BODY]: Joi.object().keys({
+            name: Joi.string(),
+            age: Joi.number().integer(),
+        })
+    },
 }
 
 module.exports = { userValidation }

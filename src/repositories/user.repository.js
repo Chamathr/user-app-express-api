@@ -80,4 +80,37 @@ const deleteUser = async (userEmail) => {
     }
 }
 
-module.exports = { getAllUsers, createUser, deleteUser }
+const updateUser = async (userEmail, userData) => {
+    try {
+        const response = await prisma.user.update(
+            {
+                where: {
+                    email: userEmail
+                },
+                data: {
+                    name: userData?.name,
+                    age: userData?.age
+                }
+            }
+        )
+        const responseBody = {
+            status: 200,
+            message: 'success',
+            body: response
+        }
+        return responseBody
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+module.exports = { getAllUsers, createUser, deleteUser, updateUser }
