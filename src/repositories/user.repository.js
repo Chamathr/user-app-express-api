@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async () => {
     try {
@@ -26,15 +27,30 @@ const getAllUsers = async () => {
 
 const createUser = async (userData) => {
     try {
-        const response = await prisma.user.create(
-            {
-                data: userData
+        userData.password = bcrypt.hashSync(userData?.password, 8)
+        let responseBody = null
+        const userExists = await prisma.user.findUnique({
+            where: {
+                email: userData?.email
             }
-        )
-        const responseBody = {
-            status: 201,
-            message: 'success',
-            body: response
+        })
+        if (userExists) {
+            responseBody = {
+                status: 409,
+                message: 'user already exits',
+                body: 'user already exits'
+            }
+        } else {
+            const response = await prisma.user.create(
+                {
+                    data: userData
+                }
+            )
+            responseBody = {
+                status: 201,
+                message: 'success',
+                body: response
+            }
         }
         return responseBody
     }
@@ -82,21 +98,37 @@ const deleteUser = async (userEmail) => {
 
 const updateUser = async (userEmail, userData) => {
     try {
-        const response = await prisma.user.update(
-            {
-                where: {
-                    email: userEmail
-                },
-                data: {
-                    name: userData?.name,
-                    age: userData?.age
-                }
+        userData.password = bcrypt.hashSync(userData?.password, 8)
+        let responseBody = null
+        const userExists = await prisma.user.findUnique({
+            where: {
+                email: userEmail
             }
-        )
-        const responseBody = {
-            status: 200,
-            message: 'success',
-            body: response
+        })
+        if (!userExists) {
+            responseBody = {
+                status: 404,
+                message: 'user not found',
+                body: 'user not found'
+            }
+        } else {
+            const response = await prisma.user.update(
+                {
+                    where: {
+                        email: userEmail
+                    },
+                    data: {
+                        name: userData?.name,
+                        password: bcrypt.hashSync(userData?.password, 8),
+                        age: userData?.age
+                    }
+                }
+            )
+            responseBody = {
+                status: 200,
+                message: 'success',
+                body: response
+            }
         }
         return responseBody
     }

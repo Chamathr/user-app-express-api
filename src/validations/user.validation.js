@@ -5,6 +5,7 @@ const userValidation = {
         [Segments.BODY]: Joi.object().keys({
             name: Joi.string().required(),
             email: Joi.string().email().required(),
+            password: Joi.string().required(),
             age: Joi.number().integer().required(),
         })
     },
@@ -22,6 +23,14 @@ const userValidation = {
         [Segments.BODY]: Joi.object().keys({
             name: Joi.string(),
             age: Joi.number().integer(),
+            password: Joi.string().required()
+        })
+    },
+
+    signinUser: {
+        [Segments.BODY]: Joi.object().keys({
+            email: Joi.string().email().required(),
+            password: Joi.string().required(),
         })
     },
 }

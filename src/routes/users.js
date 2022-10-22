@@ -12,4 +12,6 @@ router.delete('/:email', [celebrate(user.userValidation.deleteUser)], UserContro
 
 router.put('/:email', [celebrate(user.userValidation.updateUser)], UserController.updateUser)
 
+// router.post('/signin', [celebrate(user.userValidation.signinUser)], UserController.signinUser)
+
 module.exports = router;
