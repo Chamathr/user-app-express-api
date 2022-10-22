@@ -69,17 +69,31 @@ const createUser = async (userData) => {
 
 const deleteUser = async (userEmail) => {
     try {
-        const response = await prisma.user.delete(
-            {
-                where: {
-                    email: userEmail
-                }
+        let responseBody = null
+        const userExists = await prisma.user.findUnique({
+            where: {
+                email: userEmail
             }
-        )
-        const responseBody = {
-            status: 200,
-            message: 'success',
-            body: response
+        })
+        if (!userExists) {
+            responseBody = {
+                status: 404,
+                message: 'user not found',
+                body: 'user not found'
+            }
+        } else {
+            const response = await prisma.user.delete(
+                {
+                    where: {
+                        email: userEmail
+                    }
+                }
+            )
+            responseBody = {
+                status: 200,
+                message: 'success',
+                body: response
+            }
         }
         return responseBody
     }
