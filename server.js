@@ -8,7 +8,6 @@ require('dotenv').config()
 
 const APP_PREFIX = process.env.APP_PREFIX
 
-var indexRouter = require('./src/routes/index');
 var usersRouter = require('./src/routes/users');
 
 var app = express();
@@ -23,7 +22,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use(`${APP_PREFIX}/users`, usersRouter);
 
 // catch 404 and forward to error handler
