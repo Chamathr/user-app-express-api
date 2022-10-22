@@ -1,6 +1,8 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const authConfig = require('../config/auth.config')
 
 const getAllUsers = async () => {
     try {
@@ -159,4 +161,55 @@ const updateUser = async (userEmail, userData) => {
     }
 }
 
-module.exports = { getAllUsers, createUser, deleteUser, updateUser }
+const signinUser = async (userData) => {
+    try {
+        let responseBody = null
+        const user = await prisma.user.findUnique({
+            where: {
+                email: userData?.email
+            }
+        })
+        if (!user) {
+            responseBody = {
+                status: 404,
+                message: 'invalid user',
+                body: 'invalid user'
+            }
+        } else {
+            const passwordIsValid = bcrypt.compareSync(
+                userData?.password,
+                user?.password
+            );
+            if (!passwordIsValid) {
+                responseBody = {
+                    status: 404,
+                    message: 'invalid password',
+                    body: 'invalid password'
+                }
+            } else {
+                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
+                    expiresIn: authConfig.time
+                });
+                responseBody = {
+                    status: 200,
+                    message: 'succesfully logged in',
+                    body: token
+                }
+            }
+        }
+        return responseBody
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+module.exports = { getAllUsers, createUser, deleteUser, updateUser, signinUser }

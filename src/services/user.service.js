@@ -40,4 +40,14 @@ const updateUser = async (userEmail, userData) => {
     }
 }
 
-module.exports = { getAllUsers, createUser, deleteUser, updateUser }
+const signinUser = async (userData) => {
+    try{
+        const response = await UserRepository.signinUser(userData)
+        return response
+    }
+    catch(error){
+        return error
+    }
+}
+
+module.exports = { getAllUsers, createUser, deleteUser, updateUser, signinUser }
