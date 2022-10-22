@@ -1,15 +1,28 @@
-datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-    id    Int     @id @default(autoincrement())
-    email String  @unique
-    name  String?
-    age   Int?
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id     Int         @id @default(autoincrement())
+  email  String      @unique(map: "User_email_key")
+  name   String?
+  age    Int?
+  role   user_role   @default(USER)
+  status user_status @default(PENDING)
+}
+
+enum user_role {
+  USER
+  ADMIN
+}
+
+enum user_status {
+  PENDING
+  APPROVED
+  REJECTED
 }

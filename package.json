@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "dotenv -e .env -- nodemon ./bin/www"
+    "start": "dotenv -e .env -- nodemon ./bin/www",
+    "db:migrate": "dotenv -e .env -- npx prisma migrate dev",
+    "db:pull": "dotenv -e .env -- npx prisma db pull"
   },
   "dependencies": {
     "@prisma/client": "^3.15.2",
