@@ -17,6 +17,9 @@ const userValidation = {
     },
 
     updateUser: {
+        [Segments.HEADERS]: Joi.object({
+            authorization: Joi.string().required(),
+        }).unknown(),
         [Segments.PARAMS]: {
             email: Joi.string().email().required()
         },
