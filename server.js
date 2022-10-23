@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const APP_PREFIX = process.env.APP_PREFIX
 
-var usersRouter = require('./src/routes/users');
+var usersRouter = require('./src/routes/user.route');
 
 var app = express();
 
