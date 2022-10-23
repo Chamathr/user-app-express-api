@@ -5,7 +5,7 @@ const authenticateToken = async (req, res, next) => {
 
     try {
         let responseBody = null
-        const token = req.headers["authorization"];
+        const token = req?.headers["authorization"];
         jwt.verify(token, conf.secret, (err, decoded) => {
             if (err) {
                 responseBody = {
@@ -15,7 +15,17 @@ const authenticateToken = async (req, res, next) => {
                 }
                 res.status(401).send(responseBody)
             } else {
-                next();
+                if(decoded?.email === req?.params?.email){
+                    next();
+                }
+                else{
+                    responseBody = {
+                        status: 401,
+                        message: 'unauthorized token',
+                        body: 'unauthorized token'
+                    }
+                    res.status(401).send(responseBody)
+                }
             }
         });
     }
