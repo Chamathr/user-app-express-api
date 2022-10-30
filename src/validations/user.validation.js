@@ -16,7 +16,7 @@ const userValidation = {
         }
     },
 
-    updateUser: {
+    updateProfile: {
         [Segments.HEADERS]: Joi.object({
             authorization: Joi.string().required(),
         }).unknown(),

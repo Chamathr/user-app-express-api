@@ -45,9 +45,9 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-const updateUser = async (req, res, next) => {
+const updateProfile = async (req, res, next) => {
     try {
-        const response = await UserServices.updateUser(req?.params?.email, req?.body)
+        const response = await UserServices.updateProfile(req?.params?.email, req?.body)
         res.status(response?.status).send(response)
     }
     catch (error) {
@@ -75,4 +75,4 @@ const signinUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteUser, updateUser, signinUser }
+module.exports = { getAllUsers, signupUser, deleteUser, updateProfile, signinUser }

@@ -11,7 +11,7 @@ router.post('/signup', [celebrate(user.userValidation.signupUser)], UserControll
 
 router.delete('/:email', [celebrate(user.userValidation.deleteUser)], [authMiddleware.authenticateToken], UserController.deleteUser)
 
-router.put('/:email', [celebrate(user.userValidation.updateUser)], [authMiddleware.authenticateToken], UserController.updateUser)
+router.put('/update-profile/:email', [celebrate(user.userValidation.updateProfile)], [authMiddleware.authenticateToken], UserController.updateProfile)
 
 router.post('/signin', [celebrate(user.userValidation.signinUser)], UserController.signinUser)
 

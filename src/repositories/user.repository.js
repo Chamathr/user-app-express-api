@@ -112,7 +112,7 @@ const deleteUser = async (userEmail) => {
     }
 }
 
-const updateUser = async (userEmail, userData) => {
+const updateProfile = async (userEmail, userData) => {
     try {
         userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
@@ -212,4 +212,4 @@ const signinUser = async (userData) => {
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteUser, updateUser, signinUser }
+module.exports = { getAllUsers, signupUser, deleteUser, updateProfile, signinUser }
