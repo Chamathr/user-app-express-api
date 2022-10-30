@@ -30,5 +30,19 @@ const updateUser = async (req, res, next) => {
     }
 }
 
+const deleteUser = async (req, res, next) => {
+    try {
+        const response = await AdminService.deleteUser(req?.params?.email)
+        res.status(response?.status).send(response)
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        res.status(500).send(errorBody)
+    }
+}
 
-module.exports = { getAllUsers, updateUser }
+module.exports = { getAllUsers, updateUser, deleteUser }

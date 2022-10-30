@@ -73,4 +73,50 @@ const updateUser = async (userEmail, userData) => {
     }
 }
 
-module.exports = { getAllUsers, updateUser }
+const deleteUser = async (userEmail) => {
+    try {
+        let responseBody = null
+        const userExists = await prisma.user.findUnique({
+            where: {
+                email: userEmail
+            }
+        })
+        if (!userExists) {
+            responseBody = {
+                status: 404,
+                message: 'user not found',
+                body: 'user not found'
+            }
+        } else {
+            const response = await prisma.user.update(
+                {
+                    where: {
+                        email: userEmail
+                    },
+                    data: {
+                        status: "INACTIVE"
+                    }
+                }
+            )
+            responseBody = {
+                status: 200,
+                message: 'success',
+                body: response
+            }
+        }
+        return responseBody
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+module.exports = { getAllUsers, updateUser, deleteUser }

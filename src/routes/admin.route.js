@@ -8,4 +8,6 @@ router.get('/users', AdminController.getAllUsers);
 
 router.put('/update-user/:email', [celebrate(admin.adminValidation.updateUser)], AdminController.updateUser)
 
+router.put('/delete-user/:email', [celebrate(admin.adminValidation.deleteUser)], AdminController.deleteUser)
+
 module.exports = router;
