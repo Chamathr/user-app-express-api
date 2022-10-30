@@ -10,9 +10,9 @@ const getAllUsers = async () => {
     }
 }
 
-const createUser = async (userData) => {
+const signupUser = async (userData) => {
     try{
-        const response = await UserRepository.createUser(userData)
+        const response = await UserRepository.signupUser(userData)
         return response
     }
     catch(error){
@@ -50,4 +50,4 @@ const signinUser = async (userData) => {
     }
 }
 
-module.exports = { getAllUsers, createUser, deleteUser, updateUser, signinUser }
+module.exports = { getAllUsers, signupUser, deleteUser, updateUser, signinUser }

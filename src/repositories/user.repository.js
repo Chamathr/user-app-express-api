@@ -27,7 +27,7 @@ const getAllUsers = async () => {
     }
 }
 
-const createUser = async (userData) => {
+const signupUser = async (userData) => {
     try {
         userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
@@ -212,4 +212,4 @@ const signinUser = async (userData) => {
     }
 }
 
-module.exports = { getAllUsers, createUser, deleteUser, updateUser, signinUser }
+module.exports = { getAllUsers, signupUser, deleteUser, updateUser, signinUser }

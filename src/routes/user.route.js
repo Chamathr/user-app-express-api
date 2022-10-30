@@ -7,7 +7,7 @@ const authMiddleware = require('../midlewares/auth.middleware')
 
 router.get('/', UserController.getAllUsers);
 
-router.post('/', [celebrate(user.userValidation.createUser)], UserController.createUser);
+router.post('/signup', [celebrate(user.userValidation.signupUser)], UserController.signupUser);
 
 router.delete('/:email', [celebrate(user.userValidation.deleteUser)], [authMiddleware.authenticateToken], UserController.deleteUser)
 
