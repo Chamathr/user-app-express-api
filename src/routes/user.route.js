@@ -9,9 +9,9 @@ router.get('/', UserController.getAllUsers);
 
 router.post('/signup', [celebrate(user.userValidation.signupUser)], UserController.signupUser);
 
-router.delete('/:email', [celebrate(user.userValidation.deleteUser)], [authMiddleware.authenticateToken], UserController.deleteUser)
+router.delete('/:email', [celebrate(user.userValidation.deleteUser)], [authMiddleware.authenticateUserToken], UserController.deleteUser)
 
-router.put('/update-profile/:email', [celebrate(user.userValidation.updateProfile)], [authMiddleware.authenticateToken], UserController.updateProfile)
+router.put('/update-profile/:email', [celebrate(user.userValidation.updateProfile)], [authMiddleware.authenticateUserToken], UserController.updateProfile)
 
 router.post('/signin', [celebrate(user.userValidation.signinUser)], UserController.signinUser)
 

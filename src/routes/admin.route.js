@@ -1,0 +1,12 @@
+var express = require('express');
+var router = express.Router();
+const AdminController = require('../controllers/admin.controller')
+const { celebrate } = require('celebrate');
+const admin = require('../validations/admin.validation')
+const authMiddleware = require('../midlewares/auth.middleware')
+
+router.get('/users', AdminController.getAllUsers);
+
+router.put('/update-user/:email', [celebrate(admin.adminValidation.updateUser)], [authMiddleware.authenticateUserToken], AdminController.updateUser)
+
+module.exports = router;

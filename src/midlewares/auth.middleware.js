@@ -1,7 +1,7 @@
 const conf = require('../config/auth.config')
 const jwt = require('jsonwebtoken');
 
-const authenticateToken = async (req, res, next) => {
+const authenticateUserToken = async (req, res, next) => {
 
     try {
         let responseBody = null
@@ -34,4 +34,4 @@ const authenticateToken = async (req, res, next) => {
     }
 }
 
-module.exports = { authenticateToken }
+module.exports = { authenticateUserToken }

@@ -1,8 +1,8 @@
-const UserServices = require('../services/user.service')
+const UserService = require('../services/user.service')
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const response = await UserServices.getAllUsers()
+        const response = await UserService.getAllUsers()
         res.status(response?.status).send(response)
     }
     catch (error) {
@@ -17,7 +17,7 @@ const getAllUsers = async (req, res, next) => {
 
 const signupUser = async (req, res, next) => {
     try {
-        const response = await UserServices.signupUser(req?.body)
+        const response = await UserService.signupUser(req?.body)
         res.status(response?.status).send(response)
     }
     catch (error) {
@@ -32,7 +32,7 @@ const signupUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
     try {
-        const response = await UserServices.deleteUser(req?.params?.email)
+        const response = await UserService.deleteUser(req?.params?.email)
         res.status(response?.status).send(response)
     }
     catch (error) {
@@ -47,7 +47,7 @@ const deleteUser = async (req, res, next) => {
 
 const updateProfile = async (req, res, next) => {
     try {
-        const response = await UserServices.updateProfile(req?.params?.email, req?.body)
+        const response = await UserService.updateProfile(req?.params?.email, req?.body)
         res.status(response?.status).send(response)
     }
     catch (error) {
@@ -62,7 +62,7 @@ const updateProfile = async (req, res, next) => {
 
 const signinUser = async (req, res, next) => {
     try {
-        const response = await UserServices.signinUser(req?.body)
+        const response = await UserService.signinUser(req?.body)
         res.status(response?.status).send(response)
     }
     catch (error) {
