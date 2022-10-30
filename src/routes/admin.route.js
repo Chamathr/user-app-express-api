@@ -10,4 +10,6 @@ router.put('/update-user/:email', [celebrate(admin.adminValidation.updateUser)],
 
 router.delete('/delete-user/:email', [celebrate(admin.adminValidation.deleteUser)], AdminController.deleteUser)
 
+router.delete('/delete-user-permanent/:email', [celebrate(admin.adminValidation.deleteUser)], AdminController.deleteUserPermanent)
+
 module.exports = router;

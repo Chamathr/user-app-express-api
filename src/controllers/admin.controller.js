@@ -45,4 +45,19 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser }
+const deleteUserPermanent = async (req, res, next) => {
+    try {
+        const response = await AdminService.deleteUserPermanent(req?.params?.email)
+        res.status(response?.status).send(response)
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        res.status(500).send(errorBody)
+    }
+}
+
+module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent }
