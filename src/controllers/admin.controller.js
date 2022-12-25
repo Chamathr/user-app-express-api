@@ -20,6 +20,26 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
+const getUserById = async (req, res, next) => {
+    try {
+        const response = await AdminService.getUserById(req?.params?.email)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
+    }
+    catch (error) {
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        res.status(500).send(errorBody)
+    }
+}
+
 const updateUser = async (req, res, next) => {
     try {
         const response = await AdminService.updateUser(req?.params?.email, req?.body)
@@ -95,4 +115,4 @@ const deleteUserPermanent = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
+module.exports = { getAllUsers, getUserById, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }

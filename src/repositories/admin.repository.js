@@ -22,6 +22,28 @@ const getAllUsers = async () => {
     }
 }
 
+const getUserById = async (userEmail) => {
+    try {
+        const response = await prisma.user.findUnique({
+            where: {
+                email: userEmail
+            }
+        })
+        const responseBody = {
+            status: 200,
+            message: 'success',
+            body: response
+        }
+        return responseBody
+    }
+    catch (error) {
+        throw error.toString()
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
 const updateUser = async (userEmail, userData) => {
     try {
         let responseBody = null
@@ -188,4 +210,4 @@ const deleteUserPermanent = async (userEmail) => {
     }
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
+module.exports = { getAllUsers, getUserById, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }

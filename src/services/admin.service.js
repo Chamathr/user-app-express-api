@@ -10,6 +10,16 @@ const getAllUsers = async () => {
     }
 }
 
+const getUserById = async (userEmail) => {
+    try{
+        const response = await AdminRepository.getUserById(userEmail)
+        return response
+    }
+    catch(error){
+        throw error.toString()
+    }
+}
+
 const updateUser = async (userEmail, userData) => {
     try{
         const response = await AdminRepository.updateUser(userEmail, userData)
@@ -50,4 +60,4 @@ const deleteUserPermanent = async (userEmail) => {
     }
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
+module.exports = { getAllUsers, getUserById, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }

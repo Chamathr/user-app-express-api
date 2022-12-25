@@ -8,6 +8,8 @@ const authMiddleware = require('../midlewares/auth.middleware')
 /*admin routes*/
 router.get('/get-users', [authMiddleware.authenticateAdmin], AdminController.getAllUsers);
 
+router.get('/get-user-byid/:email', [authMiddleware.authenticateAdmin], AdminController.getUserById);
+
 router.put('/change-user-status/:email', [celebrate(admin.adminValidation.changeUserStatus)], [authMiddleware.authenticateAdmin], AdminController.changeUserStatus)
 
 router.put('/delete-user/:email', [celebrate(admin.adminValidation.deleteUser)], [authMiddleware.authenticateAdmin], AdminController.deleteUser)
