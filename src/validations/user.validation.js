@@ -1,6 +1,7 @@
 const { Joi, Segments } = require('celebrate');
 
 const userValidation = {
+    
     signupUser: {
         [Segments.BODY]: Joi.object().keys({
             name: Joi.string().required(),

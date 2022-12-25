@@ -197,11 +197,11 @@ const signinUser = async (userData) => {
     }
 }
 
-const getUserRole = async (userData) => {
+const getUserRole = async (userEmail) => {
     try {
         const response = await prisma.user.findUnique({
             where: {
-                email: userData?.email
+                email: userEmail
             }
         })
         return response?.role

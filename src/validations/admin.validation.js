@@ -1,7 +1,7 @@
 const { Joi, Segments } = require('celebrate');
 
 const adminValidation = {
-  
+    
     updateUser: {
         [Segments.PARAMS]: {
             email: Joi.string().email().required()

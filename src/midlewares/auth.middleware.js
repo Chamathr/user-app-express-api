@@ -39,7 +39,7 @@ const authenticateAdmin = async (req, res, next) => {
     try {
         let responseBody = null
         const token = req?.headers["authorization"];
-        jwt.verify(token, conf.secret, (err, decoded) => {
+        jwt.verify(token, conf.secret, async (err, decoded) => {
             if (err) {
                 responseBody = {
                     status: 401,
@@ -48,25 +48,15 @@ const authenticateAdmin = async (req, res, next) => {
                 }
                 res.status(401).send(responseBody)
             } else {
-                if (decoded?.email === req?.params?.email) {
-                    const userRole = UserRepository.getUserRole(decoded?.email)
-                    if (userRole === "ADMIN") {
-                        next()
-                    }
-                    else {
-                        responseBody = {
-                            status: 401,
-                            message: 'user has no permission',
-                            body: 'user has no permission'
-                        }
-                        res.status(401).send(responseBody)
-                    }
+                const userRole = await UserRepository.getUserRole(decoded?.email)
+                if (userRole === "ADMIN") {
+                    next()
                 }
                 else {
                     responseBody = {
                         status: 401,
-                        message: 'unauthorized token',
-                        body: 'unauthorized token'
+                        message: 'user has no permission',
+                        body: 'user has no permission'
                     }
                     res.status(401).send(responseBody)
                 }
