@@ -6,7 +6,7 @@ const getAllUsers = async () => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
@@ -16,17 +16,17 @@ const signupUser = async (userData) => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
-const deleteUser = async (userEmail) => {
+const deleteProfile = async (userEmail) => {
     try{
-        const response = await UserRepository.deleteUser(userEmail)
+        const response = await UserRepository.deleteProfile(userEmail)
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
@@ -46,8 +46,8 @@ const signinUser = async (userData) => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteUser, updateProfile, signinUser }
+module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }

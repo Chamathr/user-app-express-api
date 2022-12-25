@@ -3,7 +3,12 @@ const UserService = require('../services/user.service')
 const getAllUsers = async (req, res, next) => {
     try {
         const response = await UserService.getAllUsers()
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -18,7 +23,12 @@ const getAllUsers = async (req, res, next) => {
 const signupUser = async (req, res, next) => {
     try {
         const response = await UserService.signupUser(req?.body)
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -30,10 +40,15 @@ const signupUser = async (req, res, next) => {
     }
 }
 
-const deleteUser = async (req, res, next) => {
+const deleteProfile = async (req, res, next) => {
     try {
-        const response = await UserService.deleteUser(req?.params?.email)
-        res.status(response?.status).send(response)
+        const response = await UserService.deleteProfile(req?.params?.email)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -63,7 +78,12 @@ const updateProfile = async (req, res, next) => {
 const signinUser = async (req, res, next) => {
     try {
         const response = await UserService.signinUser(req?.body)
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -75,4 +95,4 @@ const signinUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteUser, updateProfile, signinUser }
+module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }

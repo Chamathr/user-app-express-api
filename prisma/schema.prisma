@@ -16,6 +16,7 @@ model User {
   role   User_Role   @default(USER)
   user_status User_Status @default(PENDING)
   status Status @default(ACTIVE)
+  created_at DateTime @default(now())
 }
 
 enum User_Role {

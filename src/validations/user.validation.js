@@ -10,7 +10,7 @@ const userValidation = {
         })
     },
 
-    deleteUser: {
+    deleteProfile: {
         [Segments.PARAMS]: {
             email: Joi.string().email().required()
         }

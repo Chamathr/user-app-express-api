@@ -1,5 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+    // log: ['query', 'info', 'warn', 'error'],
+});
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require('../config/auth.config')
@@ -15,12 +17,7 @@ const getAllUsers = async () => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
@@ -57,19 +54,14 @@ const signupUser = async (userData) => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-const deleteUser = async (userEmail) => {
+const deleteProfile = async (userEmail) => {
     try {
         let responseBody = null
         const userExists = await prisma.user.findUnique({
@@ -84,10 +76,13 @@ const deleteUser = async (userEmail) => {
                 body: 'user not found'
             }
         } else {
-            const response = await prisma.user.delete(
+            const response = await prisma.user.update(
                 {
                     where: {
                         email: userEmail
+                    },
+                    data: {
+                        status: "INACTIVE"
                     }
                 }
             )
@@ -100,12 +95,7 @@ const deleteUser = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
@@ -200,16 +190,11 @@ const signinUser = async (userData) => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteUser, updateProfile, signinUser }
+module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
