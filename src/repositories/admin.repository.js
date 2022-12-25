@@ -1,22 +1,12 @@
 const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient({
-    // log: ['query', 'info', 'warn', 'error'],
-});
+const prisma = new PrismaClient()
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require('../config/auth.config')
 
 const getAllUsers = async () => {
     try {
-        const response = await prisma.user.findMany(
-            {
-                where: {
-                    NOT: {
-                        status: "INACTIVE"
-                    }
-                }
-            }
-        )
+        const response = await prisma.user.findMany()
         const responseBody = {
             status: 200,
             message: 'success',
@@ -25,36 +15,45 @@ const getAllUsers = async () => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-const signupUser = async (userData) => {
+const updateUser = async (userEmail, userData) => {
     try {
-        userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
         const userExists = await prisma.user.findUnique({
             where: {
-                email: userData?.email
+                email: userEmail
             }
         })
-        if (userExists) {
+        if (!userExists) {
             responseBody = {
-                status: 409,
-                message: 'user already exits',
-                body: 'user already exits'
+                status: 404,
+                message: 'user not found',
+                body: 'user not found'
             }
         } else {
-            const response = await prisma.user.create(
+            const response = await prisma.user.update(
                 {
-                    data: userData
+                    where: {
+                        email: userEmail
+                    },
+                    data: {
+                        user_status: userData?.userStatus
+                    }
                 }
             )
             responseBody = {
-                status: 201,
+                status: 200,
                 message: 'success',
                 body: response
             }
@@ -62,14 +61,19 @@ const signupUser = async (userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-const deleteProfile = async (userEmail) => {
+const deleteUser = async (userEmail) => {
     try {
         let responseBody = null
         const userExists = await prisma.user.findUnique({
@@ -103,16 +107,20 @@ const deleteProfile = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
+        }
+        return errorBody
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-const updateProfile = async (userEmail, userData) => {
+const deleteUserPermanent = async (userEmail) => {
     try {
-        userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
         const userExists = await prisma.user.findUnique({
             where: {
@@ -126,15 +134,10 @@ const updateProfile = async (userEmail, userData) => {
                 body: 'user not found'
             }
         } else {
-            const response = await prisma.user.update(
+            const response = await prisma.user.delete(
                 {
                     where: {
                         email: userEmail
-                    },
-                    data: {
-                        name: userData?.name,
-                        password: bcrypt.hashSync(userData?.password, 8),
-                        age: userData?.age
                     }
                 }
             )
@@ -147,57 +150,16 @@ const updateProfile = async (userEmail, userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
-    }
-    finally {
-        await prisma.$disconnect()
-    }
-}
-
-const signinUser = async (userData) => {
-    try {
-        let responseBody = null
-        const user = await prisma.user.findUnique({
-            where: {
-                email: userData?.email
-            }
-        })
-        if (!user) {
-            responseBody = {
-                status: 404,
-                message: 'invalid user',
-                body: 'invalid user'
-            }
-        } else {
-            const passwordIsValid = bcrypt.compareSync(
-                userData?.password,
-                user?.password
-            );
-            if (!passwordIsValid) {
-                responseBody = {
-                    status: 404,
-                    message: 'invalid password',
-                    body: 'invalid password'
-                }
-            } else {
-                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
-                    expiresIn: authConfig.time
-                });
-                responseBody = {
-                    status: 200,
-                    message: 'succesfully logged in',
-                    body: token
-                }
-            }
+        const errorBody = {
+            status: 500,
+            message: 'failed',
+            body: error
         }
-        return responseBody
-    }
-    catch (error) {
-        throw error.toString()
+        return errorBody
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
+module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent }

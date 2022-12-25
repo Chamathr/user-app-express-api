@@ -1,7 +1,7 @@
 const { Joi, Segments } = require('celebrate');
 
 const userValidation = {
-    createUser: {
+    signupUser: {
         [Segments.BODY]: Joi.object().keys({
             name: Joi.string().required(),
             email: Joi.string().email().required(),
@@ -10,13 +10,13 @@ const userValidation = {
         })
     },
 
-    deleteUser: {
+    deleteProfile: {
         [Segments.PARAMS]: {
             email: Joi.string().email().required()
         }
     },
 
-    updateUser: {
+    updateProfile: {
         [Segments.HEADERS]: Joi.object({
             authorization: Joi.string().required(),
         }).unknown(),

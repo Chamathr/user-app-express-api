@@ -6,37 +6,37 @@ const getAllUsers = async () => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
-const createUser = async (userData) => {
+const signupUser = async (userData) => {
     try{
-        const response = await UserRepository.createUser(userData)
+        const response = await UserRepository.signupUser(userData)
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
-const deleteUser = async (userEmail) => {
+const deleteProfile = async (userEmail) => {
     try{
-        const response = await UserRepository.deleteUser(userEmail)
+        const response = await UserRepository.deleteProfile(userEmail)
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
-const updateUser = async (userEmail, userData) => {
+const updateProfile = async (userEmail, userData) => {
     try{
-        const response = await UserRepository.updateUser(userEmail, userData)
+        const response = await UserRepository.updateProfile(userEmail, userData)
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
@@ -46,8 +46,8 @@ const signinUser = async (userData) => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
-module.exports = { getAllUsers, createUser, deleteUser, updateUser, signinUser }
+module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
