@@ -8,7 +8,15 @@ const authConfig = require('../config/auth.config')
 
 const getAllUsers = async () => {
     try {
-        const response = await prisma.user.findMany()
+        const response = await prisma.user.findMany(
+            {
+                where: {
+                    NOT: {
+                        status: "INACTIVE"
+                    }
+                }
+            }
+        )
         const responseBody = {
             status: 200,
             message: 'success',
