@@ -2,6 +2,12 @@ const { Joi, Segments } = require('celebrate');
 
 const adminValidation = {
 
+    getUserById: {
+        [Segments.PARAMS]: {
+            email: Joi.string().email().required()
+        }
+    },
+
     changeUserStatus: {
         [Segments.HEADERS]: Joi.object({
             authorization: Joi.string().required(),

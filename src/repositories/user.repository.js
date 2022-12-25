@@ -6,13 +6,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require('../config/auth.config')
 
-const getAllUsers = async () => {
+const getProfile = async (userEmail) => {
     try {
-        const response = await prisma.user.findMany({
+        const response = await prisma.user.findUnique({
             where: {
-                NOT: {
-                    status: "INACTIVE"
-                }
+                email: userEmail
             }
         })
         const responseBody = {
@@ -30,7 +28,7 @@ const getAllUsers = async () => {
     }
 }
 
-const signupUser = async (userData) => {
+const signup = async (userData) => {
     try {
         userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
@@ -151,7 +149,7 @@ const updateProfile = async (userEmail, userData) => {
     }
 }
 
-const signinUser = async (userData) => {
+const signin = async (userData) => {
     try {
         let responseBody = null
         const user = await prisma.user.findUnique({
@@ -214,4 +212,4 @@ const getUserRole = async (userEmail) => {
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser, getUserRole }
+module.exports = { getProfile, signup, deleteProfile, updateProfile, signin, getUserRole }

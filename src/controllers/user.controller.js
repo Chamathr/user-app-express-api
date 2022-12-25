@@ -1,8 +1,8 @@
 const UserService = require('../services/user.service')
 
-const getAllUsers = async (req, res, next) => {
+const getProfile = async (req, res, next) => {
     try {
-        const response = await UserService.getAllUsers()
+        const response = await UserService.getProfile(req?.params?.email)
         const responseBody = {
             status: response?.status,
             message: response?.message,
@@ -20,9 +20,9 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
-const signupUser = async (req, res, next) => {
+const signup = async (req, res, next) => {
     try {
-        const response = await UserService.signupUser(req?.body)
+        const response = await UserService.signup(req?.body)
         const responseBody = {
             status: response?.status,
             message: response?.message,
@@ -80,9 +80,9 @@ const updateProfile = async (req, res, next) => {
     }
 }
 
-const signinUser = async (req, res, next) => {
+const signin = async (req, res, next) => {
     try {
-        const response = await UserService.signinUser(req?.body)
+        const response = await UserService.signin(req?.body)
         const responseBody = {
             status: response?.status,
             message: response?.message,
@@ -100,4 +100,4 @@ const signinUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
+module.exports = { getProfile, signup, deleteProfile, updateProfile, signin }
