@@ -6,7 +6,7 @@ const getAllUsers = async () => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 
@@ -40,13 +40,13 @@ const deleteUser = async (userEmail) => {
     }
 }
 
-const deleteUserPermanent = async (userEmail, userData) => {
+const deleteUserPermanent = async (userEmail) => {
     try{
-        const response = await AdminRepository.deleteUserPermanent(userEmail, userData)
+        const response = await AdminRepository.deleteUserPermanent(userEmail)
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 

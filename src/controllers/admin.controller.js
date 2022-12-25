@@ -3,7 +3,12 @@ const AdminService = require('../services/admin.service')
 const getAllUsers = async (req, res, next) => {
     try {
         const response = await AdminService.getAllUsers()
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -73,7 +78,12 @@ const deleteUser = async (req, res, next) => {
 const deleteUserPermanent = async (req, res, next) => {
     try {
         const response = await AdminService.deleteUserPermanent(req?.params?.email)
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {

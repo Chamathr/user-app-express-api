@@ -15,12 +15,7 @@ const getAllUsers = async () => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
@@ -186,16 +181,11 @@ const deleteUserPermanent = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent,changeUserStatus }
+module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
