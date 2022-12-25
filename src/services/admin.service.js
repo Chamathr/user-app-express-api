@@ -26,7 +26,7 @@ const deleteUser = async (userEmail, userData) => {
         return response
     }
     catch(error){
-        return error
+        throw error.toString()
     }
 }
 

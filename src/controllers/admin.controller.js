@@ -33,7 +33,12 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
     try {
         const response = await AdminService.deleteUser(req?.params?.email)
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {

@@ -5,6 +5,7 @@ const { celebrate } = require('celebrate');
 const user = require('../validations/user.validation')
 const authMiddleware = require('../midlewares/auth.middleware')
 
+/*user routes*/
 router.get('/get-users', UserController.getAllUsers);
 
 router.post('/signup-user', [celebrate(user.userValidation.signupUser)], UserController.signupUser);

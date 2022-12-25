@@ -8,15 +8,13 @@ const authConfig = require('../config/auth.config')
 
 const getAllUsers = async () => {
     try {
-        const response = await prisma.user.findMany(
-            {
-                where: {
-                    NOT: {
-                        status: "INACTIVE"
-                    }
+        const response = await prisma.user.findMany({
+            where: {
+                NOT: {
+                    status: "INACTIVE"
                 }
             }
-        )
+        })
         const responseBody = {
             status: 200,
             message: 'success',
@@ -112,7 +110,6 @@ const deleteProfile = async (userEmail) => {
 
 const updateProfile = async (userEmail, userData) => {
     try {
-        userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
         const userExists = await prisma.user.findUnique({
             where: {
@@ -164,7 +161,7 @@ const signinUser = async (userData) => {
         })
         if (!user) {
             responseBody = {
-                status: 404,
+                status: 403,
                 message: 'invalid user',
                 body: 'invalid user'
             }
@@ -175,7 +172,7 @@ const signinUser = async (userData) => {
             );
             if (!passwordIsValid) {
                 responseBody = {
-                    status: 404,
+                    status: 403,
                     message: 'invalid password',
                     body: 'invalid password'
                 }
@@ -200,4 +197,21 @@ const signinUser = async (userData) => {
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
+const getUserRole = async (userData) => {
+    try {
+        const response = await prisma.user.findUnique({
+            where: {
+                email: userData?.email
+            }
+        })
+        return response?.role
+    }
+    catch (error) {
+        throw error.toString()
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser, getUserRole }

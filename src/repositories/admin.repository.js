@@ -107,12 +107,7 @@ const deleteUser = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
