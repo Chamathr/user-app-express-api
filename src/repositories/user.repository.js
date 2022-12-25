@@ -6,28 +6,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require('../config/auth.config')
 
-const getProfile = async (userEmail) => {
-    try {
-        const response = await prisma.user.findUnique({
-            where: {
-                email: userEmail
-            }
-        })
-        const responseBody = {
-            status: 200,
-            message: 'success',
-            body: response
-        }
-        return responseBody
-    }
-    catch (error) {
-        throw error.toString()
-    }
-    finally {
-        await prisma.$disconnect()
-    }
-}
-
 const signup = async (userData) => {
     try {
         userData.password = bcrypt.hashSync(userData?.password, 8)
@@ -51,6 +29,84 @@ const signup = async (userData) => {
             )
             responseBody = {
                 status: 201,
+                message: 'success',
+                body: response
+            }
+        }
+        return responseBody
+    }
+    catch (error) {
+        throw error.toString()
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+const signin = async (userData) => {
+    try {
+        let responseBody = null
+        const user = await prisma.user.findUnique({
+            where: {
+                email: userData?.email
+            }
+        })
+        if (!user) {
+            responseBody = {
+                status: 403,
+                message: 'invalid user',
+                body: 'invalid user'
+            }
+        } else {
+            const passwordIsValid = bcrypt.compareSync(
+                userData?.password,
+                user?.password
+            );
+            if (!passwordIsValid) {
+                responseBody = {
+                    status: 403,
+                    message: 'invalid password',
+                    body: 'invalid password'
+                }
+            } else {
+                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
+                    expiresIn: authConfig.time
+                });
+                responseBody = {
+                    status: 200,
+                    message: 'succesfully logged in',
+                    body: token
+                }
+            }
+        }
+        return responseBody
+    }
+    catch (error) {
+        throw error.toString()
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+const getProfile = async (userEmail) => {
+    try {
+        let responseBody = null
+        const response = await prisma.user.findUnique({
+            where: {
+                email: userEmail
+            }
+        })
+        if (!response) {
+            responseBody = {
+                status: 404,
+                message: 'user not found',
+                body: 'user not found'
+            }
+        }
+        else {
+            responseBody = {
+                status: 200,
                 message: 'success',
                 body: response
             }
@@ -137,52 +193,6 @@ const updateProfile = async (userEmail, userData) => {
                 status: 200,
                 message: 'success',
                 body: response
-            }
-        }
-        return responseBody
-    }
-    catch (error) {
-        throw error.toString()
-    }
-    finally {
-        await prisma.$disconnect()
-    }
-}
-
-const signin = async (userData) => {
-    try {
-        let responseBody = null
-        const user = await prisma.user.findUnique({
-            where: {
-                email: userData?.email
-            }
-        })
-        if (!user) {
-            responseBody = {
-                status: 403,
-                message: 'invalid user',
-                body: 'invalid user'
-            }
-        } else {
-            const passwordIsValid = bcrypt.compareSync(
-                userData?.password,
-                user?.password
-            );
-            if (!passwordIsValid) {
-                responseBody = {
-                    status: 403,
-                    message: 'invalid password',
-                    body: 'invalid password'
-                }
-            } else {
-                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
-                    expiresIn: authConfig.time
-                });
-                responseBody = {
-                    status: 200,
-                    message: 'succesfully logged in',
-                    body: token
-                }
             }
         }
         return responseBody

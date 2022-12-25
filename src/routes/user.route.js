@@ -6,9 +6,10 @@ const user = require('../validations/user.validation')
 const authMiddleware = require('../midlewares/auth.middleware')
 
 /*user routes*/
-router.get('/get-profile/:email', [authMiddleware.authenticateUserToken], UserController.getProfile);
 
 router.post('/signin', [celebrate(user.userValidation.signin)], UserController.signin)
+
+router.get('/get-profile/:email', [authMiddleware.authenticateUserToken], UserController.getProfile);
 
 router.post('/signup', [celebrate(user.userValidation.signup)], UserController.signup);
 
