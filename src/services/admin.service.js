@@ -20,9 +20,19 @@ const updateUser = async (userEmail, userData) => {
     }
 }
 
-const deleteUser = async (userEmail, userData) => {
+const changeUserStatus = async (userEmail, userStatus) => {
     try{
-        const response = await AdminRepository.deleteUser(userEmail, userData)
+        const response = await AdminRepository.changeUserStatus(userEmail, userStatus)
+        return response
+    }
+    catch(error){
+        throw error.toString()
+    }
+}
+
+const deleteUser = async (userEmail) => {
+    try{
+        const response = await AdminRepository.deleteUser(userEmail)
         return response
     }
     catch(error){
@@ -40,4 +50,4 @@ const deleteUserPermanent = async (userEmail, userData) => {
     }
 }
 
-module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent }
+module.exports = { getAllUsers, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
