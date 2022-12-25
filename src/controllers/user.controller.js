@@ -63,7 +63,12 @@ const deleteProfile = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
     try {
         const response = await UserService.updateProfile(req?.params?.email, req?.body)
-        res.status(response?.status).send(response)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
