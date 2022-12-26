@@ -1,22 +1,32 @@
 const UserRepository = require('../repositories/user.repository')
 
-const getAllUsers = async () => {
+const signup = async (userData) => {
     try{
-        const response = await UserRepository.getAllUsers()
+        const response = await UserRepository.signup(userData)
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
-const signupUser = async (userData) => {
+const signin = async (userData) => {
     try{
-        const response = await UserRepository.signupUser(userData)
+        const response = await UserRepository.signin(userData)
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
+    }
+}
+
+const getProfile = async (userEmail) => {
+    try{
+        const response = await UserRepository.getProfile(userEmail)
+        return response
+    }
+    catch(error){
+        throw error
     }
 }
 
@@ -26,7 +36,7 @@ const deleteProfile = async (userEmail) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
@@ -36,18 +46,8 @@ const updateProfile = async (userEmail, userData) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
-const signinUser = async (userData) => {
-    try{
-        const response = await UserRepository.signinUser(userData)
-        return response
-    }
-    catch(error){
-        throw error.toString()
-    }
-}
-
-module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
+module.exports = { getProfile, signup, deleteProfile, updateProfile, signin }

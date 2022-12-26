@@ -1,12 +1,20 @@
 const { Joi, Segments } = require('celebrate');
 
 const userValidation = {
-    signupUser: {
+
+    signup: {
         [Segments.BODY]: Joi.object().keys({
             name: Joi.string().required(),
             email: Joi.string().email().required(),
             password: Joi.string().required(),
-            age: Joi.number().integer().required(),
+            age: Joi.number().integer().required()
+        })
+    },
+
+    signin: {
+        [Segments.BODY]: Joi.object().keys({
+            email: Joi.string().email().required(),
+            password: Joi.string().required(),
         })
     },
 
@@ -28,14 +36,7 @@ const userValidation = {
             age: Joi.number().integer(),
             password: Joi.string().required()
         })
-    },
-
-    signinUser: {
-        [Segments.BODY]: Joi.object().keys({
-            email: Joi.string().email().required(),
-            password: Joi.string().required(),
-        })
-    },
+    }
 }
 
 module.exports = { userValidation }

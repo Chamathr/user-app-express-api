@@ -5,14 +5,16 @@ const { celebrate } = require('celebrate');
 const user = require('../validations/user.validation')
 const authMiddleware = require('../midlewares/auth.middleware')
 
-router.get('/get-users', UserController.getAllUsers);
+/*user routes*/
 
-router.post('/signup-user', [celebrate(user.userValidation.signupUser)], UserController.signupUser);
+router.post('/signin', [celebrate(user.userValidation.signin)], UserController.signin)
+
+router.get('/get-profile/:email', [authMiddleware.authenticateUserToken], UserController.getProfile);
+
+router.post('/signup', [celebrate(user.userValidation.signup)], UserController.signup);
 
 router.put('/delete-profile/:email', [celebrate(user.userValidation.deleteProfile)], [authMiddleware.authenticateUserToken], UserController.deleteProfile)
 
 router.put('/update-profile/:email', [celebrate(user.userValidation.updateProfile)], [authMiddleware.authenticateUserToken], UserController.updateProfile)
-
-router.post('/signin-user', [celebrate(user.userValidation.signinUser)], UserController.signinUser)
 
 module.exports = router;

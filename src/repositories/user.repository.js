@@ -6,33 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authConfig = require('../config/auth.config')
 
-const getAllUsers = async () => {
-    try {
-        const response = await prisma.user.findMany(
-            {
-                where: {
-                    NOT: {
-                        status: "INACTIVE"
-                    }
-                }
-            }
-        )
-        const responseBody = {
-            status: 200,
-            message: 'success',
-            body: response
-        }
-        return responseBody
-    }
-    catch (error) {
-        throw error.toString()
-    }
-    finally {
-        await prisma.$disconnect()
-    }
-}
-
-const signupUser = async (userData) => {
+const signup = async (userData) => {
     try {
         userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
@@ -62,7 +36,85 @@ const signupUser = async (userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+const signin = async (userData) => {
+    try {
+        let responseBody = null
+        const user = await prisma.user.findUnique({
+            where: {
+                email: userData?.email
+            }
+        })
+        if (!user) {
+            responseBody = {
+                status: 403,
+                message: 'invalid user',
+                body: 'invalid user'
+            }
+        } else {
+            const passwordIsValid = bcrypt.compareSync(
+                userData?.password,
+                user?.password
+            );
+            if (!passwordIsValid) {
+                responseBody = {
+                    status: 403,
+                    message: 'invalid password',
+                    body: 'invalid password'
+                }
+            } else {
+                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
+                    expiresIn: authConfig.time
+                });
+                responseBody = {
+                    status: 200,
+                    message: 'succesfully logged in',
+                    body: token
+                }
+            }
+        }
+        return responseBody
+    }
+    catch (error) {
+        throw error
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+
+const getProfile = async (userEmail) => {
+    try {
+        let responseBody = null
+        const response = await prisma.user.findUnique({
+            where: {
+                email: userEmail
+            }
+        })
+        if (!response) {
+            responseBody = {
+                status: 404,
+                message: 'user not found',
+                body: 'user not found'
+            }
+        }
+        else {
+            responseBody = {
+                status: 200,
+                message: 'success',
+                body: response
+            }
+        }
+        return responseBody
+    }
+    catch (error) {
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -103,7 +155,7 @@ const deleteProfile = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -112,7 +164,6 @@ const deleteProfile = async (userEmail) => {
 
 const updateProfile = async (userEmail, userData) => {
     try {
-        userData.password = bcrypt.hashSync(userData?.password, 8)
         let responseBody = null
         const userExists = await prisma.user.findUnique({
             where: {
@@ -147,57 +198,28 @@ const updateProfile = async (userEmail, userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-const signinUser = async (userData) => {
+const getUserRole = async (userEmail) => {
     try {
-        let responseBody = null
-        const user = await prisma.user.findUnique({
+        const response = await prisma.user.findUnique({
             where: {
-                email: userData?.email
+                email: userEmail
             }
         })
-        if (!user) {
-            responseBody = {
-                status: 404,
-                message: 'invalid user',
-                body: 'invalid user'
-            }
-        } else {
-            const passwordIsValid = bcrypt.compareSync(
-                userData?.password,
-                user?.password
-            );
-            if (!passwordIsValid) {
-                responseBody = {
-                    status: 404,
-                    message: 'invalid password',
-                    body: 'invalid password'
-                }
-            } else {
-                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
-                    expiresIn: authConfig.time
-                });
-                responseBody = {
-                    status: 200,
-                    message: 'succesfully logged in',
-                    body: token
-                }
-            }
-        }
-        return responseBody
+        return response?.role
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
     }
 }
 
-module.exports = { getAllUsers, signupUser, deleteProfile, updateProfile, signinUser }
+module.exports = { getProfile, signup, deleteProfile, updateProfile, signin, getUserRole }
