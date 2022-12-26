@@ -6,7 +6,7 @@ const signup = async (userData) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
@@ -16,7 +16,7 @@ const signin = async (userData) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
@@ -26,7 +26,7 @@ const getProfile = async (userEmail) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
@@ -36,7 +36,7 @@ const deleteProfile = async (userEmail) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 
@@ -46,7 +46,7 @@ const updateProfile = async (userEmail, userData) => {
         return response
     }
     catch(error){
-        throw error.toString()
+        throw error
     }
 }
 

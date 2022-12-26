@@ -14,7 +14,7 @@ const authenticateUserToken = async (req, res, next) => {
                     message: 'invalid token',
                     body: 'invalid token'
                 }
-                res.status(401).send(responseBody)
+                res.status(401).json(responseBody)
             } else {
                 if (decoded?.email === req?.params?.email) {
                     next();
@@ -25,7 +25,7 @@ const authenticateUserToken = async (req, res, next) => {
                         message: 'unauthorized token',
                         body: 'unauthorized token'
                     }
-                    res.status(401).send(responseBody)
+                    res.status(401).json(responseBody)
                 }
             }
         });
@@ -46,7 +46,7 @@ const authenticateAdmin = async (req, res, next) => {
                     message: 'invalid token',
                     body: 'invalid token'
                 }
-                res.status(401).send(responseBody)
+                res.status(401).json(responseBody)
             } else {
                 const userRole = await UserRepository.getUserRole(decoded?.email)
                 if (userRole === "ADMIN") {
@@ -58,7 +58,7 @@ const authenticateAdmin = async (req, res, next) => {
                         message: 'user has no permission',
                         body: 'user has no permission'
                     }
-                    res.status(401).send(responseBody)
+                    res.status(401).json(responseBody)
                 }
             }
         });

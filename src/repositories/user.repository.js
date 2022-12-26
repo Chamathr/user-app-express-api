@@ -36,7 +36,7 @@ const signup = async (userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -82,7 +82,7 @@ const signin = async (userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -114,7 +114,7 @@ const getProfile = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -155,7 +155,7 @@ const deleteProfile = async (userEmail) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -198,7 +198,7 @@ const updateProfile = async (userEmail, userData) => {
         return responseBody
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()
@@ -215,7 +215,7 @@ const getUserRole = async (userEmail) => {
         return response?.role
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
     finally {
         await prisma.$disconnect()

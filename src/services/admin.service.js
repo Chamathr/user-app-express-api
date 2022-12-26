@@ -13,7 +13,7 @@ const getAllUsers = async () => {
         return response
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
 }
 
@@ -23,7 +23,7 @@ const getUserById = async (userEmail) => {
         return response
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
 }
 
@@ -39,14 +39,14 @@ const resetUserPassword = async (userEmail) => {
                 emailTemplateName: emailServiceEmailTemplate
             }
             const axiosResponse = await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
-            return axiosResponse?.data
+            return axiosResponse?.data 
         }
         else{
             return response?.responseBody
         }
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
 }
 
@@ -56,7 +56,7 @@ const changeUserStatus = async (userEmail, userStatus) => {
         return response
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
 }
 
@@ -66,7 +66,7 @@ const deleteUser = async (userEmail) => {
         return response
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
 }
 
@@ -76,7 +76,7 @@ const deleteUserPermanent = async (userEmail) => {
         return response
     }
     catch (error) {
-        throw error.toString()
+        throw error
     }
 }
 

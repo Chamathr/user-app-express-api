@@ -8,7 +8,7 @@ const signup = async (req, res, next) => {
             message: response?.message,
             body: response?.body
         }
-        res.status(response?.status).send(responseBody)
+        res.status(response?.status).json(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
             message: 'failed',
             body: error
         }
-        res.status(500).send(errorBody)
+        res.status(500).json(errorBody)
     }
 }
 
@@ -28,7 +28,7 @@ const signin = async (req, res, next) => {
             message: response?.message,
             body: response?.body
         }
-        res.status(response?.status).send(responseBody)
+        res.status(response?.status).json(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -36,7 +36,7 @@ const signin = async (req, res, next) => {
             message: 'failed',
             body: error
         }
-        res.status(500).send(errorBody)
+        res.status(500).json(errorBody)
     }
 }
 
@@ -48,7 +48,7 @@ const getProfile = async (req, res, next) => {
             message: response?.message,
             body: response?.body
         }
-        res.status(response?.status).send(responseBody)
+        res.status(response?.status).json(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -56,7 +56,7 @@ const getProfile = async (req, res, next) => {
             message: 'failed',
             body: error
         }
-        res.status(500).send(errorBody)
+        res.status(500).json(errorBody)
     }
 }
 
@@ -68,7 +68,7 @@ const deleteProfile = async (req, res, next) => {
             message: response?.message,
             body: response?.body
         }
-        res.status(response?.status).send(responseBody)
+        res.status(response?.status).json(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -76,7 +76,7 @@ const deleteProfile = async (req, res, next) => {
             message: 'failed',
             body: error
         }
-        res.status(500).send(errorBody)
+        res.status(500).json(errorBody)
     }
 }
 
@@ -88,7 +88,7 @@ const updateProfile = async (req, res, next) => {
             message: response?.message,
             body: response?.body
         }
-        res.status(response?.status).send(responseBody)
+        res.status(response?.status).json(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -96,7 +96,7 @@ const updateProfile = async (req, res, next) => {
             message: 'failed',
             body: error
         }
-        res.status(500).send(errorBody)
+        res.status(500).json(errorBody)
     }
 }
 
