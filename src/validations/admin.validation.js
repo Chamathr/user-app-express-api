@@ -37,6 +37,15 @@ const adminValidation = {
             email: Joi.string().email().required()
         }
     },
+
+    resetUserPassword: {
+        [Segments.HEADERS]: Joi.object({
+            authorization: Joi.string().required(),
+        }).unknown(),
+        [Segments.PARAMS]: {
+            email: Joi.string().email().required()
+        }
+    },
 }
 
 module.exports = { adminValidation }

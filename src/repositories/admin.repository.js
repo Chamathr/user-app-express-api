@@ -44,9 +44,10 @@ const getUserById = async (userEmail) => {
     }
 }
 
-const updateUser = async (userEmail, userData) => {
+const resetUserPassword = async (userEmail) => {
     try {
         let responseBody = null
+        let newPassword = null
         const userExists = await prisma.user.findUnique({
             where: {
                 email: userEmail
@@ -59,13 +60,15 @@ const updateUser = async (userEmail, userData) => {
                 body: 'user not found'
             }
         } else {
+            newPassword = (Math.floor(100000 + Math.random() * 900000)).toString()
+            const newEncryptedPassword = bcrypt.hashSync(newPassword, 8)
             const response = await prisma.user.update(
                 {
                     where: {
                         email: userEmail
                     },
                     data: {
-                        user_status: userData?.userStatus
+                        password: newEncryptedPassword
                     }
                 }
             )
@@ -75,15 +78,10 @@ const updateUser = async (userEmail, userData) => {
                 body: response
             }
         }
-        return responseBody
+        return { responseBody: responseBody, newPassword: newPassword }
     }
     catch (error) {
-        const errorBody = {
-            status: 500,
-            message: 'failed',
-            body: error
-        }
-        return errorBody
+        throw error.toString()
     }
     finally {
         await prisma.$disconnect()
@@ -210,4 +208,4 @@ const deleteUserPermanent = async (userEmail) => {
     }
 }
 
-module.exports = { getAllUsers, getUserById, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
+module.exports = { getAllUsers, getUserById, resetUserPassword, deleteUser, deleteUserPermanent, changeUserStatus }

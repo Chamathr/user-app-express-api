@@ -40,10 +40,15 @@ const getUserById = async (req, res, next) => {
     }
 }
 
-const updateUser = async (req, res, next) => {
+const resetUserPassword = async (req, res, next) => {
     try {
-        const response = await AdminService.updateUser(req?.params?.email, req?.body)
-        res.status(response?.status).send(response)
+        const response = await AdminService.resetUserPassword(req?.params?.email)
+        const responseBody = {
+            status: response?.status,
+            message: response?.message,
+            body: response?.body
+        }
+        res.status(response?.status).send(responseBody)
     }
     catch (error) {
         const errorBody = {
@@ -115,4 +120,4 @@ const deleteUserPermanent = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllUsers, getUserById, updateUser, deleteUser, deleteUserPermanent, changeUserStatus }
+module.exports = { getAllUsers, getUserById, resetUserPassword, deleteUser, deleteUserPermanent, changeUserStatus }
