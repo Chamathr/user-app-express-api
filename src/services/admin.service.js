@@ -1,6 +1,6 @@
 const AdminRepository = require('../repositories/admin.repository')
 const EmailServiceConfig = require('../config/emailService.config')
-const axios =require('axios')
+const axios = require('axios')
 
 const emailServiceBaseUrl = EmailServiceConfig?.EMAIL_SERVICE_BASE_URL
 const emailServicePrefix = EmailServiceConfig?.EMAIL_SERVICE_PREFIX
@@ -38,12 +38,9 @@ const resetUserPassword = async (userEmail) => {
                 content: `successfully reset the password. You new password is ${response?.newPassword}`,
                 emailTemplateName: emailServiceEmailTemplate
             }
-            const axiosResponse = await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
-            return axiosResponse?.data 
+            await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
         }
-        else{
-            return response?.responseBody
-        }
+        return response?.responseBody
     }
     catch (error) {
         throw error
@@ -53,6 +50,15 @@ const resetUserPassword = async (userEmail) => {
 const changeUserStatus = async (userEmail, userStatus) => {
     try {
         const response = await AdminRepository.changeUserStatus(userEmail, userStatus)
+        if (response) {
+            const emailApiBody = {
+                fromEmail: emailServiceFromEmail,
+                toEmail: userEmail,
+                content: `Your account is approved`,
+                emailTemplateName: emailServiceEmailTemplate
+            }
+            await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
+        }
         return response
     }
     catch (error) {

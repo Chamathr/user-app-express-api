@@ -14,7 +14,7 @@ const getAllUsers = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -34,7 +34,7 @@ const getUserById = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -54,7 +54,7 @@ const resetUserPassword = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -74,7 +74,7 @@ const changeUserStatus = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -94,7 +94,7 @@ const deleteUser = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -114,7 +114,7 @@ const deleteUserPermanent = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }

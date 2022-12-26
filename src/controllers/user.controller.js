@@ -14,7 +14,7 @@ const signup = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -34,7 +34,7 @@ const signin = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -54,7 +54,7 @@ const getProfile = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -74,7 +74,7 @@ const deleteProfile = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
@@ -94,7 +94,7 @@ const updateProfile = async (req, res, next) => {
         const errorBody = {
             status: 500,
             message: 'failed',
-            body: error
+            body: error.toString()
         }
         res.status(500).json(errorBody)
     }
