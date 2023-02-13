@@ -7,7 +7,7 @@ const authenticateUserToken = async (req, res, next) => {
     try {
         let responseBody = null
         const token = req?.headers["authorization"];
-        jwt.verify(token, conf.secret, (err, decoded) => {
+        jwt.verify(token, conf.tokenSecret, (err, decoded) => {
             if (err) {
                 responseBody = {
                     status: 401,
@@ -39,7 +39,7 @@ const authenticateAdmin = async (req, res, next) => {
     try {
         let responseBody = null
         const token = req?.headers["authorization"];
-        jwt.verify(token, conf.secret, async (err, decoded) => {
+        jwt.verify(token, conf.tokenSecret, async (err, decoded) => {
             if (err) {
                 responseBody = {
                     status: 401,

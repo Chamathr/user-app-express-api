@@ -69,8 +69,8 @@ const signin = async (userData) => {
                     body: 'invalid password'
                 }
             } else {
-                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.secret, {
-                    expiresIn: authConfig.time
+                const token = jwt.sign({ email: user?.email, userRole: user?.role }, authConfig.tokenSecret, {
+                    expiresIn: authConfig.tokenTime
                 });
                 responseBody = {
                     status: 200,
