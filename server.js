@@ -8,6 +8,7 @@ require('dotenv').config()
 
 const APP_PREFIX = process.env.APP_PREFIX
 
+var rootRouter = require('./src/routes/root.route');
 var userRouter = require('./src/routes/user.route');
 var adminRouter = require('./src/routes/admin.route');
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(`${APP_PREFIX}`, rootRouter);
 app.use(`${APP_PREFIX}/user`, userRouter);
 app.use(`${APP_PREFIX}/admin`, adminRouter);
 
