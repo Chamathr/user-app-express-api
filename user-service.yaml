@@ -13,20 +13,32 @@ spec:
         app: user-api
     spec:
       containers:
-        - name: user-api
-          image: chamathranaweera/user-service-img:dev
-          ports:
-            - containerPort: 8000
+      - name: user-container
+        image: chamathranaweera/user-service-img:dev
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 300
+          periodSeconds: 300
+          failureThreshold: 2
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service
+  name: user-service 
+  labels:
+    app: user-service
 spec:
+  type: LoadBalancer
   selector:
     app: user-api
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8000
-  type: LoadBalancer
+  - name: user-port
+    port: 80
+    protocol: TCP
+    targetPort: 8000
