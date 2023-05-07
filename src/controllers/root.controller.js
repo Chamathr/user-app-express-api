@@ -3,7 +3,7 @@ const healthCheck = async (req, res, next) => {
         const responseBody = {
             status: 200,
             message: "success",
-            body: "service running good"
+            body: "service is working fine"
         }
         res.status(200).json(responseBody)
     }
