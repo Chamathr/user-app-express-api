@@ -1,6 +1,8 @@
 const AdminRepository = require('../repositories/admin.repository')
 const EmailServiceConfig = require('../config/emailService.config')
 const axios = require('axios')
+const RabbitMQ = require('../utils/rabbitmq.util')
+const RabbitMQConfig = require('../config/rabbitmq.config')
 
 const emailServiceBaseUrl = EmailServiceConfig?.EMAIL_SERVICE_BASE_URL
 const emailServicePrefix = EmailServiceConfig?.EMAIL_SERVICE_PREFIX
@@ -38,7 +40,8 @@ const resetUserPassword = async (userEmail) => {
                 content: `successfully reset the password. You new password is ${response?.newPassword}`,
                 emailTemplateName: emailServiceEmailTemplate
             }
-            await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
+            await RabbitMQ.publishMessage(RabbitMQConfig.emailServiceQueue, JSON.stringify(emailApiBody))
+            // await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
         }
         return response?.responseBody
     }
