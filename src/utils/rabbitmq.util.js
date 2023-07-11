@@ -15,6 +15,7 @@ const RabbitMQInstance = (() => {
 
             await channel.assertQueue(RabbitMQConfig.emailServiceQueue);
 
+            console.log("Connected RabbitMQ")
             return channel;
         } catch (error) {
             throw new Error(`Error connecting to RabbitMQ: ${error}`);
@@ -26,6 +27,7 @@ const RabbitMQInstance = (() => {
             if (channel) {
                 await channel.close();
                 channel = null;
+                console.log("Disconnected RabbitMQ")
             }
         } catch (error) {
             throw new Error(`Error disconnecting from RabbitMQ: ${error}`);
