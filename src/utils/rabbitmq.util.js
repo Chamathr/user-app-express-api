@@ -1,19 +1,50 @@
 const amqp = require('amqplib');
 const RabbitMQConfig = require('../config/rabbitmq.config')
 
-const publishMessage = async (queue, message) => {
-    try {
-        const connection = await amqp.connect(RabbitMQConfig.rabbitmqUrl);
-        const channel = await connection.createChannel();
+const RabbitMQInstance = (() => {
+    let channel = null;
 
-        await channel.assertQueue(queue);
-        channel.sendToQueue(queue, Buffer.from(message));
+    const connect = async () => {
+        try {
+            if (channel) {
+                return channel;
+            }
 
-        await channel.close();
-        await connection.close();
-    } catch (error) {
-        throw error
-    }
-}
+            const connection = await amqp.connect(RabbitMQConfig.rabbitmqUrl);
+            channel = await connection.createChannel();
 
-module.exports = { publishMessage }
+            await channel.assertQueue(RabbitMQConfig.emailServiceQueue);
+
+            return channel;
+        } catch (error) {
+            throw new Error(`Error connecting to RabbitMQ: ${error}`);
+        }
+    };
+
+    const disconnect = async () => {
+        try {
+            if (channel) {
+                await channel.close();
+                channel = null;
+            }
+        } catch (error) {
+            throw new Error(`Error disconnecting from RabbitMQ: ${error}`);
+        }
+    };
+
+    const sendToQueue = async (queueName, message) => {
+        try {
+            await channel.sendToQueue(queueName, Buffer.from(message));
+        } catch (error) {
+            throw new Error(`Error adding message to queue: ${error}`);
+        }
+    };
+
+    return {
+        connect,
+        disconnect,
+        sendToQueue,
+    };
+})();
+
+module.exports = { RabbitMQInstance }

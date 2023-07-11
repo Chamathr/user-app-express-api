@@ -40,7 +40,7 @@ const resetUserPassword = async (userEmail) => {
                 content: `successfully reset the password. You new password is ${response?.newPassword}`,
                 emailTemplateName: emailServiceEmailTemplate
             }
-            await RabbitMQ.publishMessage(RabbitMQConfig.emailServiceQueue, JSON.stringify(emailApiBody))
+            await RabbitMQ.RabbitMQInstance.sendToQueue(RabbitMQConfig.emailServiceQueue, JSON.stringify(emailApiBody))
             // await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
         }
         return response?.responseBody
