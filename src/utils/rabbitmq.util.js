@@ -34,7 +34,7 @@ const RabbitMQInstance = (() => {
         }
     };
 
-    const sendToQueue = async (queueName, message) => {
+    const addToQueue = async (queueName, message) => {
         try {
             await channel.sendToQueue(queueName, Buffer.from(message));
         } catch (error) {
@@ -45,7 +45,7 @@ const RabbitMQInstance = (() => {
     return {
         connect,
         disconnect,
-        sendToQueue,
+        addToQueue,
     };
 })();
 
