@@ -17,11 +17,12 @@ RUN npm install
 # Copy the rest of the application files to the container
 COPY . .
 
+# Set an environment variable for the RabbitMQ server host and mysql server host
+ENV RABBITMQ_HOST=host.docker.internal
+ENV MYSQL_HOST=host.docker.internal
+
 # Generate the Prisma client
 RUN npm run prisma:generate
-
-# Set an environment variable for the RabbitMQ server host
-ENV RABBITMQ_HOST=host.docker.internal
 
 # Expose port 8000
 EXPOSE 8000
