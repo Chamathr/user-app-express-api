@@ -4,6 +4,8 @@ services:
     build:
       context: ../user-service
       dockerfile: Dockerfile
+    image: user-service:dev
+    container_name: user-service-container
     ports:
       - 8000:8000
 
@@ -11,5 +13,7 @@ services:
     build:
       context: ../email-service
       dockerfile: Dockerfile
+    image: email-service:dev
+    container_name: email-service-container
     ports:
       - 9000:9000
