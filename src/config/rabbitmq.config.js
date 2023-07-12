@@ -1,4 +1,4 @@
 module.exports = {
-    rabbitmqUrl: 'amqp://localhost',
+    rabbitmqUrl: `amqp://${process.env.RABBITMQ_HOST}`,
     emailServiceQueue: 'EMAIL_SERVICE'
 }

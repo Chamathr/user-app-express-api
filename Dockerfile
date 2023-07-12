@@ -20,6 +20,9 @@ COPY . .
 # Generate the Prisma client
 RUN npm run prisma:generate
 
+# Set an environment variable for the RabbitMQ server host
+ENV RABBITMQ_HOST=host.docker.internal
+
 # Expose port 8000
 EXPOSE 8000
 
