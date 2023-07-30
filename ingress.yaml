@@ -17,10 +17,11 @@ spec:
   rules:
     - http:
         paths:
-          - path: /hello
+          - path: /hello-world
             pathType: Prefix
             backend:
               service:
                 name: hello-world-service
                 port:
-                  number: 80
+                  name: hello-port
+                  # number: 80
