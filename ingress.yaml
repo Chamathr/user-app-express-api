@@ -25,3 +25,10 @@ spec:
                 port:
                   name: hello-port
                   # number: 80
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  name: user-port

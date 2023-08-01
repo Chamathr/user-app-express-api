@@ -6,26 +6,33 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-api
+      app: user-deployment
   template:
     metadata:
       labels:
-        app: user-api
+        app: user-deployment
     spec:
       containers:
-      - name: user-container
+      - name: user-deployment
         image: chamathranaweera/user-service-img:dev
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8000
-          initialDelaySeconds: 300
-          periodSeconds: 300
-          failureThreshold: 2
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   initialDelaySeconds: 300
+        #   periodSeconds: 300
+        #   failureThreshold: 2
+        resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 500m
+              memory: 1Gi
 ---
 apiVersion: v1
 kind: Service
@@ -34,7 +41,7 @@ metadata:
   labels:
     app: user-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: user-api
   ports:

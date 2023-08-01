@@ -13,7 +13,7 @@ spec:
         app: hello-world-deployment
     spec:
       containers:
-        - name: hello-world-container
+        - name: hello-world-deployment
           image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
           ports:
             - containerPort: 80
