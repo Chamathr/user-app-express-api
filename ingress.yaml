@@ -32,10 +32,3 @@ spec:
                 name: user-service
                 port:
                   name: user-port
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: rabbitmq
-                port:
-                  name: management
