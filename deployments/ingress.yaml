@@ -26,9 +26,16 @@ spec:
                   name: hello-port
                   # number: 80
           - path: /user(/|$)(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific 
             backend:
               service:
                 name: user-service
                 port:
                   name: user-port
+          - path: /email(/|$)(.*)
+            pathType: ImplementationSpecific 
+            backend:
+              service:
+                name: email-service
+                port:
+                  name: email-port
