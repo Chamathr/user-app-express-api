@@ -13,20 +13,19 @@ spec:
         app: user-deployment
     spec:
       containers:
-      - name: user-deployment
-        image: chamathranaweera/user-service-img:dev
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8000
-          protocol: TCP
-        # livenessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: 80
-        #   initialDelaySeconds: 300
-        #   periodSeconds: 300
-        #   failureThreshold: 2
-        resources:
+        - name: user-deployment
+          image: chamathranaweera/user-service:dev
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8000
+          # livenessProbe:
+          #   httpGet:
+          #     path: /user/api/v1/user-service
+          #     port: 8000
+          #   initialDelaySeconds: 300
+          #   periodSeconds: 300
+          #   failureThreshold: 2
+          resources:
             requests:
               cpu: 500m
               memory: 1Gi
@@ -37,15 +36,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service 
-  labels:
-    app: user-service
+  name: user-service
 spec:
-  type: ClusterIP
   selector:
-    app: user-api
+    app: user-deployment
   ports:
-  - name: user-port
-    port: 80
-    protocol: TCP
-    targetPort: 8000
+    - name: user-port
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
