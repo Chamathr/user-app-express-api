@@ -5,9 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const { errors } = require('celebrate');
 require('dotenv').config()
+const RabbitMQ = require('./src/utils/rabbitmq.util')
 
 const APP_PREFIX = process.env.APP_PREFIX
 
+var rootRouter = require('./src/routes/root.route');
 var userRouter = require('./src/routes/user.route');
 var adminRouter = require('./src/routes/admin.route');
 
@@ -17,12 +19,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+RabbitMQ.RabbitMQInstance.connect()
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(`${APP_PREFIX}`, rootRouter);
 app.use(`${APP_PREFIX}/user`, userRouter);
 app.use(`${APP_PREFIX}/admin`, adminRouter);
 
@@ -32,7 +37,7 @@ app.use(function(req, res, next) {
 });
 
 // celebrate error handler
-app.use(errors()); 
+app.use(errors());
 
 // error handler
 app.use(function(err, req, res, next) {
