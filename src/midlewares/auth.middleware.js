@@ -6,7 +6,7 @@ const authenticateUserToken = async (req, res, next) => {
 
     try {
         let responseBody = null
-        const token = req?.headers["authorization"];
+        const token = (req?.headers["authorization"])?.replace("Bearer ", "");
         jwt.verify(token, conf.secret, (err, decoded) => {
             if (err) {
                 responseBody = {
@@ -38,7 +38,7 @@ const authenticateUserToken = async (req, res, next) => {
 const authenticateAdmin = async (req, res, next) => {
     try {
         let responseBody = null
-        const token = req?.headers["authorization"];
+        const token = (req?.headers["authorization"])?.replace("Bearer ", "");
         jwt.verify(token, conf.secret, async (err, decoded) => {
             if (err) {
                 responseBody = {
