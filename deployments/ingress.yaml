@@ -39,3 +39,10 @@ spec:
                 name: email-service
                 port:
                   name: email-port
+          - path: /elasticsearch(/|$)(.*)
+            pathType: ImplementationSpecific 
+            backend:
+              service:
+                name: elasticsearch-service
+                port:
+                  name: elastic-port

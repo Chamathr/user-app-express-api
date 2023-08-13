@@ -41,7 +41,7 @@ spec:
   selector:
     app: elasticsearch-deployment
   ports:
-    - name: elasticsearch-port
+    - name: elastic-port
       protocol: TCP
       port: 7000
       targetPort: 7000
