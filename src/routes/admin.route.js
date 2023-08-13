@@ -4,11 +4,12 @@ const AdminController = require('../controllers/admin.controller')
 const { celebrate } = require('celebrate');
 const admin = require('../validations/admin.validation')
 const authMiddleware = require('../midlewares/auth.middleware')
+const redisMiddleware = require('../midlewares/redis.middleware')
 
 /*admin routes*/
 router.get('/get-users', [authMiddleware.authenticateAdmin], AdminController.getAllUsers);
 
-router.get('/get-user-byid/:email', [celebrate(admin.adminValidation.getUserById)], [authMiddleware.authenticateAdmin], AdminController.getUserById);
+router.get('/get-user-byid/:email', [celebrate(admin.adminValidation.getUserById)], [authMiddleware.authenticateAdmin], [redisMiddleware.getRedisCache], AdminController.getUserById);
 
 router.put('/change-user-status/:email', [celebrate(admin.adminValidation.changeUserStatus)], [authMiddleware.authenticateAdmin], AdminController.changeUserStatus)
 

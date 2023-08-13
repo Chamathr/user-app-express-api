@@ -1,4 +1,5 @@
 const AdminService = require('../services/admin.service')
+const redisMiddleware = require('../midlewares/redis.middleware')
 
 const getAllUsers = async (req, res, next) => {
     try {
@@ -27,6 +28,10 @@ const getUserById = async (req, res, next) => {
             status: response?.status,
             message: response?.message,
             body: response?.body
+        }
+        const redisResponse = await redisMiddleware.setRedisCache(req?.params?.email, response?.body)
+        if(!redisResponse){
+            console.error("Something went wrong with redis insert")
         }
         res.status(response?.status).json(responseBody)
     }

@@ -6,6 +6,7 @@ var logger = require('morgan');
 const { errors } = require('celebrate');
 require('dotenv').config()
 const RabbitMQ = require('./src/utils/rabbitmq.util')
+const Redis = require('./src/utils/redis.util')
 
 const APP_PREFIX = process.env.APP_PREFIX
 
@@ -20,6 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 RabbitMQ.RabbitMQInstance.connect()
+Redis.RedisInstance.connect()
 
 app.use(logger('dev'));
 app.use(express.json());
