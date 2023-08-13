@@ -27,7 +27,7 @@ const RedisInstance = (() => {
             
             return client;
         } catch (error) {
-            throw new Error(`Error connecting to RabbitMQ: ${error}`);
+            throw new Error(`Error connecting to Redis: ${error}`);
         }
     };
 
@@ -36,10 +36,10 @@ const RedisInstance = (() => {
             if (client) {
                 await client.disconnect();
                 client = null;
-                console.log("Disconnected RabbitMQ")
+                console.log("Disconnected Redis")
             }
         } catch (error) {
-            throw new Error(`Error disconnecting from RabbitMQ: ${error}`);
+            throw new Error(`Error disconnecting from Redis: ${error}`);
         }
     };
 

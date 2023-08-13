@@ -20,6 +20,7 @@ COPY . .
 # Set an environment variable for the RabbitMQ server host and mysql server host
 ENV RABBITMQ_HOST=host.docker.internal
 ENV MYSQL_HOST=host.docker.internal
+ENV REDIS_HOST=host.docker.internal
 
 # Generate the Prisma client
 RUN npm run prisma:generate
