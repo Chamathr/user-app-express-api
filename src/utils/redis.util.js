@@ -16,8 +16,7 @@ const RedisInstance = (() => {
             }
 
             client = redis.createClient({
-                host: redisHost,
-                port: redisPort,
+                url: `redis://${redisHost}:${redisPort}`,
                 password: redisPassword
             });
 
