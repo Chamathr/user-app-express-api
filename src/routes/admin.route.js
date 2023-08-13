@@ -17,6 +17,6 @@ router.put('/delete-user/:email', [celebrate(admin.adminValidation.deleteUser)],
 
 router.delete('/delete-user-permanent/:email', [celebrate(admin.adminValidation.deleteUserPermanent)], [authMiddleware.authenticateAdmin], AdminController.deleteUserPermanent)
 
-router.put('/reset-user-password/:email', [celebrate(admin.adminValidation.resetUserPassword)], [authMiddleware.authenticateAdmin], AdminController.resetUserPassword)
+router.put('/reset-user-password/:email', [celebrate(admin.adminValidation.resetUserPassword)], AdminController.resetUserPassword)
 
 module.exports = router;

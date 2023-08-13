@@ -14,6 +14,7 @@ const RabbitMQInstance = (() => {
             channel = await connection.createChannel();
 
             await channel.assertQueue(RabbitMQConfig.emailServiceQueue);
+            await channel.assertQueue(RabbitMQConfig.elasticsearchServiceQueue);
 
             console.log("Connected RabbitMQ")
             return channel;

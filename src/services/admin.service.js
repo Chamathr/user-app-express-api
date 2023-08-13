@@ -40,8 +40,14 @@ const resetUserPassword = async (userEmail) => {
                 content: `successfully reset the password. You new password is ${response?.newPassword}`,
                 emailTemplateName: emailServiceEmailTemplate
             }
+            const elasticSearchBody = {
+                index: "logs",
+                action: "reset-password",
+                service: "user-service",
+                data: `password reset for user ${userEmail}`
+            }
             await RabbitMQ.RabbitMQInstance.addToQueue(RabbitMQConfig.emailServiceQueue, JSON.stringify(emailApiBody))
-            // await axios.post(`${emailServiceBaseUrl}/${emailServicePrefix}/email/send-email`, emailApiBody)
+            await RabbitMQ.RabbitMQInstance.addToQueue(RabbitMQConfig.elasticsearchServiceQueue, JSON.stringify(elasticSearchBody))
         }
         return response?.responseBody
     }
